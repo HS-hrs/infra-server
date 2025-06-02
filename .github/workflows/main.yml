@@ -21,7 +21,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t mulook/vacation-service:v1 .
+        docker build -t mulook/vacation-service:v1 ./vacation-service
 
     - name: Push Docker image
       run: |
