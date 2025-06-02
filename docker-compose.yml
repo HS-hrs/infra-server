@@ -1,0 +1,5 @@
+services:
+  vacation-service:
+    image: mulook/vacation-service:v1
+    environment:
+      - SPRING_
