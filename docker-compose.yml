@@ -1,5 +1,52 @@
 services:
+  config-server:
+    image: mulook/config-server:v1
+    ports:
+      - "8888:8888"
+
+  eureka-server:
+    image: mulook/eureka-server:v1
+    depends_on:
+      - config-server
+    ports:
+      - "8761:8761"
+
+  gateway-service:
+    image: mulook/gateway-service:v1
+    depends_on:
+      - eureka-server
+      - config-server
+    ports:
+      - "8080:8080"
+      
   vacation-service:
     image: mulook/vacation-service:v1
     environment:
-      - SPRING_
+      - DB_HOST=vacation-db
+      - DB_PORT=3306
+      - DB_NAME=${VACATION_DB_NAME}
+      - DB_USER=${VACATION_DB_USER}
+      - DB_PASSWORD=${VACATION_DB_PASSWORD}
+    depends_on:
+      - vacation-db
+      - eureka-server
+      - config-server
+      - gateway-service
+    ports:
+      - "8081:8080"
+
+  vacation-db:
+    image: mysql:8.0
+    container_name: vacation-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${VACATION_DB_NAME}
+      MYSQL_USER: ${VACATION_DB_USER}
+      MYSQL_PASSWORD: ${VACATION_DB_PASSWORD}
+    ports:
+      - "3308:3306"
+    volumes:
+      - vacation_db_data:/var/lib/mysql
+
+volumes:
+  vacation_db_data
