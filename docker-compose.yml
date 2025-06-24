@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   config-server:
-    image: mulook/config-server:v1
+    image: mulook/config-server:v2
     ports:
       - "8888:8888"
 
@@ -22,7 +22,7 @@ services:
       - "8080:8080"
 
   vacation-service:
-    image: mulook/vacation-service:v1
+    image: mulook/vacation-service:v3
     environment:
       - DB_HOST=vacation-db
       - DB_PORT=3306
