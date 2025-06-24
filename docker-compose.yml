@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   config-server:
     image: mulook/config-server:v1
@@ -18,7 +20,7 @@ services:
       - config-server
     ports:
       - "8080:8080"
-      
+
   vacation-service:
     image: mulook/vacation-service:v1
     environment:
